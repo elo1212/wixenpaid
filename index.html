@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wenox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sekcja logowania -->
+        <div id="login-section">
+            <h1>Wenox - Logowanie</h1>
+            <input type="text" id="login" placeholder="Login">
+            <input type="password" id="password" placeholder="Hasło">
+            <button onclick="login()">Zaloguj się</button>
+        </div>
+
+        <!-- Sekcja panelu admina -->
+        <div id="admin-panel" class="hidden">
+            <h2>Dodaj użytkownika (Panel Admina)</h2>
+            <input type="text" id="new-login" placeholder="Nowy login">
+            <input type="password" id="new-password" placeholder="Nowe hasło">
+            <button onclick="addUser()">Dodaj użytkownika</button>
+        </div>
+
+        <!-- Sekcja główna strony -->
+        <div id="main-content" class="hidden">
+            <h1>O nas</h1>
+            <p>Zapewniamy Ci najlepszego klienta do komfortowej gry, który dostarczy Ci najlepszych wrażeń z rozgrywki.</p>
+            <button onclick="buyNow()">Kup teraz</button>
+            <br><br>
+            <button onclick="returnToLogin()">Powrót do logowania</button>
+        </div>
+    </div>
+
+    <script>
+        // Baza użytkowników
+        const users = {
+            'admin': 'admin' // Domyślny użytkownik admina
+        };
+
+        // Funkcja logowania
+        function login() {
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+
+            if (users[login] && users[login] === password) {
+                alert('Zalogowano pomyślnie!');
+                
+                if (login === 'admin') {
+                    document.getElementById('admin-panel').classList.remove('hidden'); // Pokaż panel admina
+                }
+
+                document.getElementById('login-section').classList.add('hidden'); // Ukryj logowanie
+                document.getElementById('main-content').classList.remove('hidden'); // Pokaż główną stronę
+            } else {
+                alert('Niepoprawny login lub hasło.');
+            }
+        }
+
+        // Funkcja dodawania użytkownika
+        function addUser() {
+            const newLogin = document.getElementById('new-login').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            if (newLogin && newPassword) {
+                users[newLogin] = newPassword; // Dodaj nowego użytkownika
+                alert(`Dodano użytkownika: ${newLogin}`);
+                document.getElementById('new-login').value = '';
+                document.getElementById('new-password').value = '';
+            } else {
+                alert('Wypełnij wszystkie pola.');
+            }
+        }
+
+        // Funkcja przekierowania na Discorda
+        function buyNow() {
+            window.location.href = 'https://discord.gg/HwNv2GqmGJ';
+        }
+
+        // Funkcja powrotu do logowania
+        function returnToLogin() {
+            document.getElementById('login-section').classList.remove('hidden'); // Pokaż logowanie
+            document.getElementById('main-content').classList.add('hidden'); // Ukryj główną stronę
+            document.getElementById('admin-panel').classList.add('hidden'); // Ukryj panel admina (jeśli widoczny)
+        }
+    </script>
+</body>
+</html>
